@@ -6,6 +6,8 @@ import isBoolean from 'lodash/fp/isBoolean'
 import flatten from 'lodash/fp/flatten'
 import join from 'lodash/fp/join'
 import trim from 'lodash/fp/trim'
+import toLower from 'lodash/fp/toLower'
+import deburr from 'lodash/fp/trim'
 
 const toDate = (d: string, short?: boolean) => {
   const config = {
@@ -29,4 +31,6 @@ const getReadTime = (text: string) => {
 const cx = (...args: unknown[]) =>
   compose(trim, join(' '), reject(isBoolean), reject(isNil), flatten)(args)
 
-export { cx, getReadTime, isClient, toDate }
+const sanitize = compose(deburr, toLower)
+
+export { cx, getReadTime, isClient, toDate, sanitize }

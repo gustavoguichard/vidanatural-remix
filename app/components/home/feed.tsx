@@ -14,7 +14,11 @@ function Feed({ posts }: Props) {
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
             Leia mais sobre como ter uma vida + natural.{' '}
-            <Link to="/blog" className="group font-medium text-secondary-500">
+            <Link
+              prefetch="render"
+              to="/blog"
+              className="group font-medium text-secondary-500"
+            >
               Ver blog
               <span
                 className="inline-block transition group-hover:translate-x-1"
@@ -45,12 +49,19 @@ function Feed({ posts }: Props) {
                 <div className="flex-1">
                   <div className="flex flex-wrap gap-1 text-sm font-medium text-secondary-600">
                     {post.tags.map((tag) => (
-                      <Badge key={`${post.id}-${tag}`} href={`/tag/${tag}`}>
+                      <Badge
+                        key={`${post.id}-${tag}`}
+                        href={`/blog?busca=${tag}`}
+                      >
                         {tag}
                       </Badge>
                     ))}
                   </div>
-                  <Link to={`/blog/${post.uid}`} className="mt-2 block">
+                  <Link
+                    prefetch="intent"
+                    to={`/blog/${post.uid}`}
+                    className="mt-2 block"
+                  >
                     <p className="text-xl font-semibold text-gray-900">
                       {post.data.title}
                     </p>
@@ -77,9 +88,9 @@ function Feed({ posts }: Props) {
                       {post.data.author?.data?.name}
                     </p>
                     <div className="flex space-x-1 text-sm text-gray-500">
-                      {post.data.date && (
-                        <time dateTime={post.data.date.toString()}>
-                          há {timeSince(new Date(post.data.date))}
+                      {post.first_publication_date && (
+                        <time dateTime={post.first_publication_date.toString()}>
+                          há {timeSince(new Date(post.first_publication_date))}
                         </time>
                       )}
                       <span aria-hidden="true">&middot;</span>

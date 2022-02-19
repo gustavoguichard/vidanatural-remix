@@ -52,6 +52,7 @@ const Footer = () => {
                 {navigation.products.map((item) => (
                   <li key={item.name}>
                     <Link
+                      prefetch="intent"
                       to={item.href}
                       className="text-base text-gray-300 hover:text-white"
                     >
@@ -69,6 +70,7 @@ const Footer = () => {
                 {navigation.support.map((item) => (
                   <li key={item.name}>
                     <Link
+                      prefetch="intent"
                       to={item.href}
                       className="text-base text-gray-300 hover:text-white"
                     >
@@ -86,6 +88,7 @@ const Footer = () => {
                 {navigation.company.map((item) => (
                   <li key={item.name}>
                     <Link
+                      prefetch="intent"
                       to={item.href}
                       className="text-base text-gray-300 hover:text-white"
                     >
@@ -134,16 +137,16 @@ const Footer = () => {
         <div className="mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
           <div className="flex space-x-6 md:order-2">
             {navigation.social.map((item) => (
-              <Link
+              <a
                 key={item.name}
-                to={item.href}
+                href={item.href}
                 className="text-gray-400 hover:text-gray-300"
                 target="_blank"
                 rel="noreferrer noopener"
               >
                 <span className="sr-only">{item.name}</span>
                 <item.icon className="h-6 w-6" aria-hidden="true" />
-              </Link>
+              </a>
             ))}
           </div>
           <p className="mt-8 text-base text-gray-400 md:order-1 md:mt-0">

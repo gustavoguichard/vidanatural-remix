@@ -24,6 +24,7 @@ type FaqItem = {
   uid: string
   tags: string[]
   first_publication_date?: string
+  last_publication_date?: string
   data: {
     title: string
     answer: RichTextBlock[]
@@ -56,7 +57,6 @@ type BlogPost = {
   data: {
     title: string
     body: RichTextBlock[]
-    date: string
     header_image?: {
       url: string
       alt?: string
@@ -72,7 +72,6 @@ type TeamMember = {
   id: string
   uid: string
   tags: string[]
-  permalink: string
   thumbUrl?: string
   imageAlt?: string
   data: {
@@ -83,10 +82,10 @@ type TeamMember = {
       url: string
       alt: string
     }
-    instagram?: string
-    facebook?: string
-    linkeding?: string
-    github?: string
+    instagram: { url?: string }
+    facebook: { url?: string }
+    linkedin: { url?: string }
+    github: { url?: string }
   }
 }
 

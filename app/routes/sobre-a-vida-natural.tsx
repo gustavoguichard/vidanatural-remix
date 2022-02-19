@@ -2,6 +2,7 @@ import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import { RichText, RichTextBlock } from 'prismic-reactjs'
 import * as api from '~/lib/api'
 import SocialLinks from '~/components/social-links'
+import { TeamMember } from '~/lib/api/types'
 
 export let meta: MetaFunction = () => ({
   title: 'Sobre a Vida Natural',
@@ -9,20 +10,8 @@ export let meta: MetaFunction = () => ({
     'Uma empresa  feita por amigos, unidos pelo propósito da transparência, que se importam com aquilo que colocamos todos os dias no nosso maior orgão de absorção - a pele.',
 })
 
-type LinkObj = { url?: string }
 type LoaderData = {
-  team: Array<{
-    data: {
-      name: string
-      picture?: { url: string }
-      role: string
-      bio: RichTextBlock[]
-      linkedin: LinkObj
-      facebook: LinkObj
-      instagram: LinkObj
-      github: LinkObj
-    }
-  }>
+  team: TeamMember[]
   page: {
     data: {
       banner_description: RichTextBlock[]
@@ -39,7 +28,7 @@ type LoaderData = {
     }
   }
 }
-export let loader: LoaderFunction = async (): Promise<LoaderData> => {
+export let loader: LoaderFunction = async () => {
   const team = await api.cms.getByTypeAndTags('team_member', {
     orderings: '[document.first_publication_date]',
     fetch: [
@@ -55,7 +44,7 @@ export let loader: LoaderFunction = async (): Promise<LoaderData> => {
   })
 
   const page = await api.cms.getPage('about_page')
-  return { team, page }
+  return { team, page } as LoaderData
 }
 
 export default function AboutPage() {

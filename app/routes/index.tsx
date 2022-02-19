@@ -6,10 +6,24 @@ import NewsletterSection from '~/components/home/newsletter-section'
 import Stats from '~/components/home/stats'
 import * as api from '~/lib/api'
 import pick from 'lodash/fp/pick'
-import type { BlogPost } from '~/lib/api/types'
+import type { BlogPost, Testimonial } from '~/lib/api/types'
+import Testimonials from '~/components/testimonials'
 
-type LoaderData = { posts: BlogPost[] }
-export let loader: LoaderFunction = async (): Promise<LoaderData> => {
+type LoaderData = {
+  posts: BlogPost[]
+  testimonials: Testimonial[]
+}
+export let loader: LoaderFunction = async () => {
+  const testimonials = await api.cms.getByTypeAndTags('testimonial', {
+    fetch: [
+      'name',
+      'picture',
+      'content',
+      'short_content',
+      'role',
+      'location',
+    ].map((field) => `testimonial.${field}`),
+  })
   const posts = await api.cms.getByTypeAndTags('blog_post', {
     orderings: '[my.blog_post.date desc]',
     fetch: ['title', 'body', 'author', 'header_image', 'date'].map(
@@ -19,19 +33,21 @@ export let loader: LoaderFunction = async (): Promise<LoaderData> => {
     pageSize: 4,
   })
   return {
-    posts: (posts?.map(
+    posts: posts.map(
       pick([
         'data.title',
         'data.body',
         'tags',
         'id',
+        'uid',
         'data.author.data.name',
         'data.author.data.picture',
         'data.header_image',
-        'data.date',
+        'first_publication_date',
       ]),
-    ) ?? []) as BlogPost[],
-  }
+    ) as BlogPost[],
+    testimonials: testimonials as Testimonial[],
+  } as LoaderData
 }
 
 export default function Index() {
@@ -41,6 +57,7 @@ export default function Index() {
       <Feed posts={data.posts} />
       <IntroVideo />
       <Stats />
+      <Testimonials items={data.testimonials} />
       <Incentives />
       <NewsletterSection />
     </>
