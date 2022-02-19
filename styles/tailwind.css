@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *:focus {
+    @apply outline-none focus:ring ring-secondary-400;
+  }
+}
+
+@layer components {
+  .\[scrollbar-width\:none\]::-webkit-scrollbar {
+    @apply hidden;
+  }
+  .yt-lite {
+    @apply aspect-video relative bg-center bg-cover cursor-pointer flex items-center justify-center;
+  }
+  .yt-lite > .lty-playbtn {
+    @apply w-[70px] aspect-[10/7] rounded-lg transition-all ease-[cubic-bezier(0,0,0.2,1)] z-10 bg-black/70 flex items-center justify-center absolute before:border-y-[11px] before:border-l-[19px] before:border-transparent before:border-l-white;
+  }
+  .yt-lite:hover > .lty-playbtn {
+    @apply bg-red-500;
+  }
+  .yt-lite.lyt-activated {
+    @apply cursor-auto;
+  }
+  .yt-lite.lyt-activated > .lty-playbtn {
+    @apply opacity-0 pointer-events-none;
+  }
+  .yt-lite iframe {
+    @apply w-full h-full;
+  }
+}
